@@ -45,8 +45,8 @@ module OAuth2
       params ||= request.params
       header = request.env['HTTP_AUTHORIZATION']
       
-      access_token = header && header =~ /^OAuth\s+/ ?
-                     header.gsub(/^OAuth\s+/, '') :
+      access_token = header && header =~ /OAuth[2]?\s+/i ?
+                     header.gsub(/OAuth[2]?\s+/i, '') :
                      params[OAUTH_TOKEN] || params[ACCESS_TOKEN]
       
       Provider::AccessToken.new(resource_owner,
