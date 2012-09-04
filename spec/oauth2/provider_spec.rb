@@ -10,7 +10,7 @@ describe OAuth2::Provider do
                }
   
   before do
-    @client = Factory(:client, :name => 'Test client')
+    @client = FactoryGirl.create(:client, :name => 'Test client')
     @owner  = TestApp::User['Bob']
   end
   
@@ -310,8 +310,8 @@ describe OAuth2::Provider do
   
   describe "access token request" do
     before do
-      @client = Factory(:client)
-      @authorization = Factory(:authorization, :client => @client, :owner => @owner)
+      @client = FactoryGirl.create(:client)
+      @authorization = FactoryGirl.create(:authorization, :client => @client, :owner => @owner)
     end
     
     let(:auth_params)  { { 'client_id'     => @client.client_id,
@@ -433,7 +433,7 @@ describe OAuth2::Provider do
   
   describe "protected resource request" do
     before do
-      @authorization = Factory(:authorization,
+      @authorization = FactoryGirl.create(:authorization,
         :owner        => @owner,
         :access_token => 'magic-key',
         :scope        => 'profile')

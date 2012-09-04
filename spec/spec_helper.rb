@@ -4,7 +4,7 @@ $:.unshift(dir)
 
 require 'rubygems'
 require 'bundler/setup'
-
+require 'factory_girl'
 require 'active_record'
 require 'oauth2/provider'
 

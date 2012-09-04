@@ -11,7 +11,7 @@ describe OAuth2::Provider::Authorization do
                }
   
   before do
-    @client = Factory(:client)
+    @client = FactoryGirl.create(:client)
     OAuth2.stub(:random_string).and_return('s1', 's2', 's3')
   end
   
@@ -133,7 +133,7 @@ describe OAuth2::Provider::Authorization do
   describe "#grant_access!" do
     describe "when there is an existing authorization with no code" do
       before do
-        @model = Factory(:authorization,
+        @model = FactoryGirl.create(:authorization,
           :owner  => resource_owner,
           :client => @client,
           :code   => nil)
@@ -149,7 +149,7 @@ describe OAuth2::Provider::Authorization do
     
     describe "when there is an existing authorization with scopes" do
       before do
-        @model = Factory(:authorization,
+        @model = FactoryGirl.create(:authorization,
           :owner  => resource_owner,
           :client => @client,
           :code   => nil,
@@ -167,7 +167,7 @@ describe OAuth2::Provider::Authorization do
     
     describe "when there is an existing expired authorization" do
       before do
-        @model = Factory(:authorization,
+        @model = FactoryGirl.create(:authorization,
           :owner      => resource_owner,
           :client     => @client,
           :expires_at => 2.months.ago,

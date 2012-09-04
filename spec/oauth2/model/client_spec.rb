@@ -3,8 +3,8 @@ require 'spec_helper'
 describe OAuth2::Model::Client do
   before do
     @client = OAuth2::Model::Client.create(:name => 'App', :redirect_uri => 'http://example.com/cb')
-    @owner  = Factory(:owner)
-    Factory(:authorization, :client => @client, :owner => @owner)
+    @owner  = FactoryGirl.create(:owner)
+    FactoryGirl.create(:authorization, :client => @client, :owner => @owner)
   end
   
   it "is valid" do
