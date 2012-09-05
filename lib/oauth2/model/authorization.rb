@@ -120,7 +120,7 @@ module OAuth2
       end
       
       def update_encrypted_access_token
-        if !self.owner.nil? && !self.owner.get_password_field.nil?
+        if !self.owner.nil? && !self.owner.get_password_field.nil? && !self.access_token.nil?
           self.encrypted_access_token = OAuth2.encrypt(self.access_token, self.owner.get_password_field)
         end
       end

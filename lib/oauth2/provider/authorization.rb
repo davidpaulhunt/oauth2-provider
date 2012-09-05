@@ -41,7 +41,7 @@ module OAuth2
           :client   => @client,
           :scope    => @scope,
           :duration => options[:duration])
-        
+
         @code          = @model.code
         @access_token  = @model.access_token
         @refresh_token = @model.refresh_token
