@@ -15,6 +15,7 @@ OAuth2::Model::Schema.up
 ActiveRecord::Schema.define do |version|
   create_table :users, :force => true do |t|
     t.string :name
+    t.string :password_hash
   end
 end
 

@@ -2,9 +2,10 @@ module TestApp
   
   class User < ActiveRecord::Base
     set_table_name :users
-    
     include OAuth2::Model::ResourceOwner
     include OAuth2::Model::ClientOwner
+        
+    oauth2_password_field :password_hash # Determines which field is used for the AES encryption key
     
     def self.[](name)
       find_or_create_by_name(name)

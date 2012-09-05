@@ -11,6 +11,7 @@ FactoryGirl.define do
   
   factory :owner, :class => TestApp::User do
     name { generate(:user_name) }
+    password_hash { OAuth2.random_string }
   end
   
   

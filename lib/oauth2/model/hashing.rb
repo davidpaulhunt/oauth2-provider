@@ -1,7 +1,7 @@
 module OAuth2
   module Model
     
-    module Hashing
+    module Hashing    
       def hashes_attributes(*attributes)
         attributes.each do |attribute|
           define_method("#{attribute}=") do |value|

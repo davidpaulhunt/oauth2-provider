@@ -1,5 +1,6 @@
 require 'cgi'
 require 'digest/sha1'
+require 'openssl'
 require 'bcrypt'
 require 'json'
 require 'active_record'
@@ -24,6 +25,33 @@ module OAuth2
   def self.hashify(token)
     return nil unless String === token
     Digest::SHA1.hexdigest(token)
+  end
+  
+  def self.encrypt(token, passphrase)
+    return nil if token.nil? || passphrase.nil?
+    begin
+      aes = OpenSSL::Cipher.new("AES-256-ECB")
+      aes.encrypt
+      aes.key = passphrase
+      encrypted = aes.update(token) + aes.final
+      return encrypted.unpack('H*').join
+    rescue
+      return nil
+    end
+  end
+  
+  def self.decrypt(ciphertext, passphrase)
+    return nil if ciphertext.nil? || passphrase.nil?
+    begin
+      aes = OpenSSL::Cipher.new("AES-256-ECB")
+      aes.decrypt
+      aes.key = passphrase
+      decrypted = aes.update([ciphertext].pack("H*")) + aes.final
+      puts 'returning decrypted'
+      return decrypted
+    rescue
+      return nil
+    end
   end
   
   ACCESS_TOKEN           = 'access_token'

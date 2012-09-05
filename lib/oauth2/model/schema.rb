@@ -21,6 +21,7 @@ module OAuth2
           t.belongs_to :client
           t.string     :scope
           t.string     :code,               :limit => 40
+          t.string     :encrypted_access_token
           t.string     :access_token_hash,  :limit => 40
           t.string     :refresh_token_hash, :limit => 40
           t.datetime   :expires_at
