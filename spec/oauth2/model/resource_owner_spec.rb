@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe OAuth2::Model::ResourceOwner do
   before do
-    @owner  = Factory(:owner)
-    @client = Factory(:client)
+    @owner  = FactoryGirl.create(:owner)
+    @client = FactoryGirl.create(:client)
   end
   
   describe "#grant_access!" do
@@ -19,7 +19,7 @@ describe OAuth2::Model::ResourceOwner do
   
   describe "when there is an existing authorization" do
     before do
-      @authorization = Factory(:authorization, :owner => @owner, :client => @client)
+      @authorization = FactoryGirl.create(:authorization, :owner => @owner, :client => @client)
     end
     
     it "does not create a new one" do
@@ -47,7 +47,7 @@ describe OAuth2::Model::ResourceOwner do
   end
   
   it "destroys its authorizations on destroy" do
-    Factory(:authorization, :owner => @owner, :client => @client)
+    FactoryGirl.create(:authorization, :owner => @owner, :client => @client)
     @owner.destroy
     OAuth2::Model::Authorization.count.should be_zero
   end

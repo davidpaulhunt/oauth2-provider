@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe OAuth2::Provider::Exchange do
   before do
-    @client = Factory(:client)
+    @client = FactoryGirl.create(:client)
     @owner  = TestApp::User['Bob']
-    @authorization = Factory(:authorization, :client => @client, :owner => @owner, :scope => 'foo bar')
+    @authorization = FactoryGirl.create(:authorization, :client => @client, :owner => @owner, :scope => 'foo bar')
     OAuth2.stub(:random_string).and_return('random_string')
   end
   
@@ -284,7 +284,7 @@ describe OAuth2::Provider::Exchange do
     
     describe "with a client unauthorized to use the assertion scheme" do
       before do
-        client = Factory(:client)
+        client = FactoryGirl.create(:client)
         params['client_id'] = client.client_id
         params['client_secret'] = client.client_secret
       end
@@ -298,7 +298,7 @@ describe OAuth2::Provider::Exchange do
   
   describe "using refresh_token grant type" do
     before do
-      @refresher = Factory(:authorization, :client => @client,
+      @refresher = FactoryGirl.create(:authorization, :client => @client,
                                            :owner  => @owner,
                                            :scope  => 'foo bar',
                                            :code   => nil,

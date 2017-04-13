@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe OAuth2::Model::Authorization do
-  let(:client)   { Factory :client }
-  let(:impostor) { Factory :client }
-  let(:owner)    { Factory :owner }
-  let(:user)     { Factory :owner }
+  let(:client)   { FactoryGirl.create :client }
+  let(:impostor) { FactoryGirl.create :client }
+  let(:owner)    { FactoryGirl.create :owner }
+  let(:user)     { FactoryGirl.create :owner }
   
   let(:authorization) do
     OAuth2::Model::Authorization.new(:owner => owner, :client => client)

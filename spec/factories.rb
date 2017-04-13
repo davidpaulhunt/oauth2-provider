@@ -1,27 +1,31 @@
 require 'factory_girl'
 
-Factory.sequence :client_name do |n|
-  "Client ##{n}"
-end
-
-Factory.sequence :user_name do |n|
-  "User ##{n}"
-end
-
-Factory.define :owner, :class => TestApp::User do |u|
-  u.name { Factory.next :user_name }
-end
-
-Factory.define :client, :class => OAuth2::Model::Client do |c|
-  c.client_id     { OAuth2.random_string }
-  c.client_secret { OAuth2.random_string }
-  c.name          { Factory.next :client_name }
-  c.redirect_uri  'https://client.example.com/cb'
-end
-
-Factory.define :authorization, :class => OAuth2::Model::Authorization do |ac|
-  ac.client     Factory(:client)
-  ac.code       { OAuth2.random_string }
-  ac.expires_at nil
+FactoryGirl.define do
+  sequence :client_name do |n|
+    "Client ##{n}"
+  end
+  
+  sequence :user_name do |n|
+    "User ##{n}" 
+  end
+  
+  factory :owner, :class => TestApp::User do
+    name { generate(:user_name) }
+    password_hash { OAuth2.random_string }
+  end
+  
+  
+  factory :client, :class => OAuth2::Model::Client do
+    client_id { OAuth2.random_string }
+    client_secret { OAuth2.random_string }
+    name { generate(:client_name) }
+    redirect_uri "https://client.example.com/cb"
+  end
+  
+  factory :authorization, :class => OAuth2::Model::Authorization do
+    client FactoryGirl.build(:client)
+    code { OAuth2.random_string }
+    expires_at nil
+  end
 end
 

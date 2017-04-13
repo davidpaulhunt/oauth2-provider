@@ -4,7 +4,7 @@ $:.unshift(dir)
 
 require 'rubygems'
 require 'bundler/setup'
-
+require 'factory_girl'
 require 'active_record'
 require 'oauth2/provider'
 
@@ -15,6 +15,7 @@ OAuth2::Model::Schema.up
 ActiveRecord::Schema.define do |version|
   create_table :users, :force => true do |t|
     t.string :name
+    t.string :password_hash
   end
 end
 

@@ -5,12 +5,12 @@ describe OAuth2::Provider::AccessToken do
     @alice = TestApp::User['Alice']
     @bob   = TestApp::User['Bob']
     
-    Factory(:authorization,
+    FactoryGirl.create(:authorization,
       :owner        => @alice,
       :scope        => 'profile',
       :access_token => 'sesame')
     
-    @authorization = Factory(:authorization,
+    @authorization = FactoryGirl.create(:authorization,
       :owner        => @bob,
       :scope        => 'profile',
       :access_token => 'magic-key')

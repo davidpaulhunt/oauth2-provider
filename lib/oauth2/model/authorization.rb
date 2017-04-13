@@ -12,9 +12,11 @@ module OAuth2
       
       validates_presence_of :client, :owner
       
-      validates_uniqueness_of :code,               :scope => :client_id, :allow_nil => true
-      validates_uniqueness_of :refresh_token_hash, :scope => :client_id, :allow_nil => true
-      validates_uniqueness_of :access_token_hash,                        :allow_nil => true
+      validates_uniqueness_of :code,                     :scope => :client_id, :allow_nil => true
+      validates_uniqueness_of :refresh_token_hash,       :scope => :client_id, :allow_nil => true
+      validates_uniqueness_of :access_token_hash,                              :allow_nil => true
+      
+      before_save :update_encrypted_access_token
       
       extend Hashing
       hashes_attributes :access_token, :refresh_token
@@ -52,11 +54,11 @@ module OAuth2
           when CODE
             instance.code ||= create_code(attributes[:client])
           when TOKEN
-            instance.access_token  ||= create_access_token
+            instance.access_token  ||= instance.decrypted_token_or_new
             instance.refresh_token ||= create_refresh_token(attributes[:client])
           when CODE_AND_TOKEN
             instance.code = create_code(attributes[:client])
-            instance.access_token  ||= create_access_token
+            instance.access_token  ||= instance.decrypted_token_or_new
             instance.refresh_token ||= create_refresh_token(attributes[:client])
         end
         
@@ -76,7 +78,7 @@ module OAuth2
       
       def exchange!
         self.code          = nil
-        self.access_token  = self.class.create_access_token
+        self.access_token  = self.decrypted_token_or_new
         self.refresh_token = nil
         save!
       end
@@ -106,6 +108,23 @@ module OAuth2
       def scopes
         scope ? scope.split(/\s+/) : []
       end
+      
+      def decrypted_token_or_new
+        if self.owner.get_password_field != nil && self.encrypted_access_token != nil
+          decrypted = OAuth2.decrypt(self.encrypted_access_token, self.owner.get_password_field)
+          if OAuth2.hashify(decrypted) == self.access_token_hash
+            return decrypted
+          end
+        end
+        return self.class.create_access_token
+      end
+      
+      def update_encrypted_access_token
+        if !self.owner.nil? && !self.owner.get_password_field.nil? && !self.access_token.nil?
+          self.encrypted_access_token = OAuth2.encrypt(self.access_token, self.owner.get_password_field)
+        end
+      end
+      
     end
     
   end
