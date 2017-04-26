@@ -13,7 +13,7 @@ spec = Gem::Specification.new do |s|
   s.require_paths     = ["lib"]
 
   s.add_dependency("activerecord", ">= 3.0.0")
-  s.add_dependency("bcrypt-ruby")
+  s.add_dependency("bcrypt")
   s.add_dependency("json")
 
   # s.add_development_dependency("activerecord", "~> 3.0.0") # The SQLite adapter in 3.1 is broken
