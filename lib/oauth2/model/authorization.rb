@@ -35,7 +35,7 @@ module OAuth2
       def self.create_access_token
         OAuth2.generate_id do |token|
           hash = OAuth2.hashify(token)
-          where(access_token_hash: hash).zero?
+          where(access_token_hash: hash).count.zero?
         end
       end
       
