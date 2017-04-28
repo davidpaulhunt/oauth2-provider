@@ -58,8 +58,8 @@ module OAuth2
   ASSERTION              = 'assertion'
   ASSERTION_TYPE         = 'assertion_type'
   AUTHORIZATION_CODE     = 'authorization_code'
-  CLIENT_ID              = :client_id
-  CLIENT_SECRET          = :client_secret
+  CLIENT_ID              = 'client_id'
+  CLIENT_SECRET          = 'client_secret'
   CODE                   = 'code'
   CODE_AND_TOKEN         = 'code_and_token'
   DURATION               = 'duration'
