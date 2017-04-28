@@ -42,7 +42,7 @@ module OAuth2
       def self.create_refresh_token(client)
         OAuth2.generate_id do |refresh_token|
           hash = OAuth2.hashify(refresh_token)
-          client.authorizations.where(refresh_token_hash: hash}.count.zero?
+          client.authorizations.where(refresh_token_hash: hash).count.zero?
         end
       end
       
