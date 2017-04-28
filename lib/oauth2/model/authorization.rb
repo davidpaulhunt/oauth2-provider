@@ -23,7 +23,7 @@ module OAuth2
       
       def self.for(resource_owner, client)
         return nil unless resource_owner and client
-        resource_owner.oauth2_authorizations.find_by_client_id(client.id)
+        resource_owner.oauth2_authorizations.find_by(:client_id => client.id)
       end
       
       def self.create_code(client)

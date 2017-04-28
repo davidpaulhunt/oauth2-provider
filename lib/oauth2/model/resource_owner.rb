@@ -23,7 +23,7 @@ module OAuth2
       end
       
       def grant_access!(client, options = {})
-        authorization = oauth2_authorizations.find_by_client_id(client.id) ||
+        authorization = oauth2_authorizations.find_by(:client_id => client.id) ||
                         Model::Authorization.create(:owner => self, :client => client)
         
         if scopes = options[:scopes]

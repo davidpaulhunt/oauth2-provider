@@ -98,7 +98,7 @@ module OAuth2
       end
       
       def validate_client
-        @client = Model::Client.find_by_client_id(@params[CLIENT_ID])
+        @client = Model::Client.find_by(:client_id => @params[CLIENT_ID])
         unless @client
           @error = INVALID_CLIENT
           @error_description = "Unknown client ID #{@params[CLIENT_ID]}"
@@ -135,7 +135,7 @@ module OAuth2
         
         return if @error
         
-        @authorization = @client.authorizations.find_by_code(@params[CODE])
+        @authorization = @client.authorizations.find_by(:code => @params[CODE])
         validate_authorization
       end
       
@@ -182,7 +182,7 @@ module OAuth2
       
       def validate_refresh_token
         refresh_token_hash = OAuth2.hashify(@params[REFRESH_TOKEN])
-        @authorization = @client.authorizations.find_by_refresh_token_hash(refresh_token_hash)
+        @authorization = @client.authorizations.find_by(:refresh_token_hash => refresh_token_hash)
         validate_authorization
       end
       
