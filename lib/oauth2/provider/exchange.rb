@@ -149,6 +149,7 @@ module OAuth2
         return if @error
         
         @authorization = Provider.handle_password(@client, @params[USERNAME], @params[PASSWORD])
+        byebug
         return validate_authorization if @authorization
         
         @error = INVALID_GRANT
